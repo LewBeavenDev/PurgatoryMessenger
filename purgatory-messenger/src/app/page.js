@@ -24,6 +24,7 @@ export default function Home() {
     event.preventDefault();
     if (username === 'purgatorytattoos@yahoo.com' && password === 'Scabcannon1!') { // Replace with your own credentials check logic
       setIsAuthenticated(true);
+      setAlertMessage(''); // Clear any alert messages after successful login
     } else {
       setAlertMessage('Invalid username or password.');
     }
