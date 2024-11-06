@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './globals.css';
-import Logo from '/Purgatory.png';
+import Logo from '../../public/Purgatory.png';
 import Image from 'next/image';
 
 export default function Home() {
