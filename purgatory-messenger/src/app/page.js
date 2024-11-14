@@ -41,28 +41,33 @@ export default function Home() {
           'paging[page_size]': 1000
         }
       });
-
+  
       const entryData = response.data.entries.map(entry => ({
         id: entry.id,
         artistName: entry['8'] || 'N/A',
         clientName: entry['46'] || 'N/A',
-        contactNumber: entry['36'] ? formatPhoneNumber(entry['36']) : 'N/A'
+        contactNumber: entry['36'] ? formatPhoneNumber(entry['36']) : 'N/A',
+        agreeToMailingList: entry['23.2'] === 'I agree to Join the mailing list.' // Check for mailing list agreement
       }));
-
-      setEntries(entryData);
-
+  
+      // Filter entries to only include those who agreed to join the mailing list
+      const filteredEntries = entryData.filter(entry => entry.agreeToMailingList);
+  
+      setEntries(filteredEntries);
+  
       const artists = [
         'All Artists',
         '-Test-',
-        ...new Set(entryData.map(entry => entry.artistName).filter(artistName => artistName !== 'N/A'))
+        ...new Set(filteredEntries.map(entry => entry.artistName).filter(artistName => artistName !== 'N/A'))
       ];
       const sortedArtists = artists.slice(2).sort((a, b) => a.localeCompare(b));
       setUniqueArtists(['-Test-', 'All Artists', ...sortedArtists]);
-
+  
     } catch (error) {
       console.error('Error fetching entries:', error.response ? error.response.data : error.message);
     }
   }
+  
 
   const formatPhoneNumber = (number) => {
     return number.replace(/\s+/g, '').replace('+44', '0');
